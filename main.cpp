@@ -41,5 +41,8 @@ int main() {
     cout << Validator::isAlpha("abd123") << " A" << endl;
     cout << Validator::isNumber("12") <<" N" << endl;
     cout << Validator::isEmpty("") <<" I" << endl;
+
+    cout << Validator::toLower("HEEY boii it'sa me") << endl;
+
     return 0;
 }
