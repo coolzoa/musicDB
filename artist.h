@@ -10,4 +10,7 @@ class Artist : public Printable{
         Artist();
         Artist(int ID, std::string nm);
         std::string toString();
+        std::string getName();
+        int getId();
+        void setName(std::string nm);
 };
