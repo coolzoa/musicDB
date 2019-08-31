@@ -8,7 +8,7 @@ std::string Message::errorEmpty(std::string input) {
 }
 
 std::string Message::errorFormat(std::string input, std::string format) {
-    return "Whoops, " + input + "cannot contain " + format;
+    return "Whoops, " + input + " cannot contain " + format;
 }
 
 std::string Message::maxCapacity(std::string className) {

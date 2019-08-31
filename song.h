@@ -13,5 +13,9 @@ class Song : public Printable {
         Song();
         Song(int albumID, int tNumber, std::string nm, double dur);
         std::string toString();
+
+        int getAlbumId();
+        std::string getName();
+        int getTrackNumber();
 };
 

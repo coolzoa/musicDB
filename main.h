@@ -33,7 +33,6 @@ bool existAlbum(std::string albumName);
 
 void addNewAlbum(std::string artistName, std::string albumName, std::string year);
 Album getAlbumByName(std::string albumName, std::string artistName);
-
 void searchAlbum(std::string albumName);
 void showAlbums();
 
@@ -41,6 +40,17 @@ void showAlbums();
 void showSongMenu();
 void handleSongMenuOption(std::string option);
 void askSongInfo(int option);
+bool validSongInput(std::string artistName, std::string albumName, std::string songName, std::string songDuration);
+bool validSongInput(std::string songName);
+bool existSong(std::string songName, std::string albumName, std::string artistName);
+bool existSong(std::string songName);
+int getMaxTrackNumberFromAlbum(std::string albumName, std::string artistName);
+
+void addNewSong(std::string artistName, std::string albumName, std::string songName, std::string songDuration);
+void searchSong(std::string songName);
+void showSongs();
+
+
 
 
 

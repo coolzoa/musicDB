@@ -1,6 +1,7 @@
 #include "validator.h"
 #include <string>
-#include <algorithm>
+#include <algorithm> //transform()
+#include <stdlib.h> //atof()
 
 
 bool Validator::isEmpty(std::string str) {
@@ -32,8 +33,20 @@ bool Validator::isAlpha(std::string str) {
     }
     return true;
 }
+
+bool Validator::isFloat(std::string str) {
+    if (atof(str.c_str()) == 0) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+
 // adapted from https://stackoverflow.com/questions/313970/how-to-convert-stdstring-to-lower-case
 std::string Validator::toLower(std::string str) {
     transform(str.begin(), str.end(), str.begin(), ::tolower);
     return str;
 }
+
+

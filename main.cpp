@@ -7,6 +7,8 @@
 #include "message.h"
 #include "main.h"
 
+//link to simpleJSON parser library used: https://github.com/MJPA/SimpleJSON
+
 using namespace std;
 
 const int MAX = 200;
@@ -280,7 +282,7 @@ bool validAlbumInput(std::string artistName, std::string albumName, std::string 
         cout << Message::errorEmpty(string("Album year")) << endl;
         valid = false;
     } else if (!Validator::isNumber(year)) {
-        Message::errorFormat("Album year", " something other than numbers");
+        cout << Message::errorFormat("Album year", " something other than numbers") << endl;
         valid = false;
     }
     return valid;
@@ -422,7 +424,251 @@ void showAlbums() {
 
 
 ////////////Song menu functions
+void showSongMenu() {
+    cout << "=====Songs=====" << endl;
+    cout << "1. Add New Song" << endl;
+    cout << "2. Search for Song" << endl;
+    cout << "3. Show Songs" << endl;
+    cout << "4. Return to main menu" << endl;
+    
+    std::string option;
+    cout << "Press the option number: ";
+    getline(std::cin, option);
+    handleSongMenuOption(option);
+}
 
+void handleSongMenuOption(std::string option) {
+    if (option.compare("1") == 0) {
+        askSongInfo(1);
+    } else if (option.compare("2") == 0) {
+        askSongInfo(2);
+    } else if (option.compare("3") == 0) {
+        showSongs();
+    } else if (option.compare("4") == 0) {
+        showMainMenu();
+    } else {
+        cout << Message::invalidOption << endl;
+    }
+    showSongMenu();
+}
+
+
+void askSongInfo(int option) {
+    std::string artistName;
+    std::string albumName;
+
+    std::string songName;
+    std::string songDuration;
+
+    
+       //option 1 = register new Song
+    if (option == 1) {
+        cout << "Insert the Artist name: ";
+        getline(std::cin, artistName);
+        artistName = Validator::toLower(artistName);
+        artistName[0] = toupper(artistName[0]);
+
+        cout << "Insert the Album name: ";
+        getline(std::cin, albumName);
+        albumName = Validator::toLower(albumName);
+        albumName[0] = toupper(albumName[0]);
+
+        cout << "Insert the Song name: ";
+        getline(std::cin, songName);
+        songName = Validator::toLower(songName);
+        songName[0] = toupper(songName[0]);
+
+        cout << "Insert the track duration: ";
+        getline(std::cin, songDuration);
+
+        if (validSongInput(artistName, albumName, songName, songDuration)) {
+            addNewSong(artistName, albumName, songName, songDuration);
+        } else {
+
+        }
+
+
+        //option = 2 search for song
+    } else {
+        cout << endl;
+        cout << "Insert the Song name: ";
+        getline(std::cin, songName);
+        songName = Validator::toLower(songName);
+        songName[0] = toupper(songName[0]);
+        if (validSongInput(songName)) {
+            //searchSong(trackName);
+        } else {
+
+        }
+    }
+}
+
+
+bool validSongInput(std::string artistName, std::string albumName, std::string songName, std::string songDuration) {
+    bool valid = true;
+    if (Validator::isEmpty(artistName)) {
+        cout << Message::errorEmpty(string("Artist name")) << endl;
+        valid = false;
+    } else if (Validator::isNumber(artistName)) {
+        cout << Message::errorFormat(string("Artist name"), string("only numbers")) << endl;
+        valid = false;
+    } else if (Validator::isEmpty(albumName)) {
+        cout << Message::errorEmpty(string("Album name")) << endl;
+        valid = false;
+    } else if (Validator::isEmpty(songName)) {
+        cout << Message::errorEmpty(string("Song name")) << endl;
+        valid = false;
+    } else if (Validator::isEmpty(songDuration)) {
+        cout << Message::errorEmpty(string("Song duration")) << endl;
+        valid = false;
+    } else if (!Validator::isFloat(songDuration)) {
+        cout << Message::errorFormat(string("Song duration"), string("a format different than a decimal value")) << endl;
+        valid = false;
+    }
+    return valid;
+}
+
+bool validSongInput(std::string songName) {
+    if (Validator::isEmpty(songName)) {
+        cout << Message::errorEmpty(string("Song name")) << endl;
+        return false;
+    } else {
+        return true;
+    }
+}
+
+bool existSong(std::string songName, std::string albumName, std::string artistName) {
+     bool exist = false;
+    if (!existArtist(artistName)) {
+        return exist;
+    } else if (!existAlbum(albumName, artistName)) {
+        return exist;
+    } else {
+        int artistId = getArtistByName(artistName).getId();
+        int i;
+        for (i = 0; i < numberAlbums; i++) {
+            if (exist) {
+                break;
+            } else if (albums[i].getArtistId() == artistId) {
+                if (albums[i].getName().compare(albumName) == 0) {
+                    int albumId = albums[i].getAlbumId();
+                    int j;
+                    for (j = 0; j < numberSongs; j++) {
+                        if (songs[j].getAlbumId() == albumId) {
+                            if (songs[j].getName().compare(songName) == 0) {
+                                exist = true;
+                                break;
+                            }
+                        }
+                    }
+                }  
+            }
+        }
+    }
+    return exist;
+}
+
+
+
+bool existSong(std::string songName) {
+    bool exist = false;
+    int i;
+    for (i = 0; i < numberSongs; i++) {
+        if (songs[i].getName().compare(songName) == 0) {
+            exist = true;
+            break;
+        }
+    }
+    return exist;
+}
+
+int getMaxTrackNumberFromAlbum(std::string albumName, std::string artistName) {
+    int albumId = getAlbumByName(albumName, artistName).getAlbumId();
+    int i;
+    int last = 0;
+    for (i = 0; i < numberSongs; i++) {
+        if (songs[i].getAlbumId() == albumId) {
+            if (last < songs[i].getTrackNumber()) {
+                last = songs[i].getTrackNumber();
+            }
+        }
+    }
+    return ++last;
+
+}
+
+void addNewSong(std::string artistName, std::string albumName, std::string songName, std::string songDuration) {
+    if (numberSongs == MAX) {
+        cout << Message::maxCapacity(string("Song")) << endl;
+    } else if (existSong(songName, albumName, artistName)) {
+        cout << Message::foundMatch(string("Album")) << endl;
+    } else {
+
+        if (!existArtist(artistName) || !existAlbum(albumName, artistName)) {
+            cout << Message::errorMatch(string("Artist and Album combination")) << endl;
+        } else {
+            double duration = atof(songDuration.c_str());
+            int albumId = getAlbumByName(albumName, artistName).getAlbumId();
+            int trackNumber = getMaxTrackNumberFromAlbum(albumName, artistName);
+            songs[numberSongs] = Song(albumId, trackNumber, songName, duration);
+            cout << Message::newObjectAdded(string("Song")) << endl;
+            numberSongs++;
+        }
+    }
+}
+
+void searchSong(std::string songName) {
+    if (!existSong(songName)) {
+        cout << Message::errorMatch(string("Song")) << endl;
+    } else {
+        cout << "Here;s what we found: " << endl;
+        cout << "|\tArtist_id\t|\tArtist_name\t|\tAlbum_id\t|\tAlbum_name\t|\tAlbum_year\t|" << endl;
+
+        cout << "|\tArtist_id\t|\tArtist_name\t|\tAlbum_id\t|\tAlbum_name\t|\tAlbum_year\t|" <<
+            "\tTrack_number\t|\tSong_name\t|\tSong_duration\t|"<< endl;
+        cout << "======================================================================================================" << endl;
+
+        int i, j, k;
+        for (i = 0; i < numberArtists; i++) {
+            for (j = 0; j < numberAlbums; j++) {
+                if (existAlbum(albums[j].getName(), artists[i].getName())) {
+                    if ((albums[j].getArtistId() == artists[i].getId())) {
+                        for (k = 0; k < numberSongs; k++) {
+                            if ((existSong(songName, albums[j].getName(), artists[i].getName())
+                                && (songs[k].getName().compare(songName) == 0))
+                            ) {
+                                cout << artists[i].toString() + albums[j].toString() + songs[k].toString() << endl;
+                            }
+                        }
+                    }
+                }
+            }
+        }       
+    }
+}
+
+void showSongs() {
+    cout << "Here;s what we found: " << endl;
+
+    cout << "|\tArtist_id\t|\tArtist_name\t|\tAlbum_id\t|\tAlbum_name\t|\tAlbum_year\t|" <<
+        "\tTrack_number\t|\tSong_name\t|\tSong_duration\t|"<< endl;
+    cout << "======================================================================================================" << endl;
+
+    int i, j, k;
+    for (i = 0; i < numberArtists; i++) {
+        for (j = 0; j < numberAlbums; j++) {
+            if (existAlbum(albums[j].getName(), artists[i].getName())) {
+                if ((albums[j].getArtistId() == artists[i].getId())) {
+                    for (k = 0; k < numberSongs; k++) {
+                        if (existSong(songs[k].getName(), albums[j].getName(), artists[i].getName())) {
+                            cout << artists[i].toString() + albums[j].toString() + songs[k].toString() << endl;
+                        }
+                    }
+                }
+            }
+        }
+    }      
+}
 
 
 
@@ -455,7 +701,7 @@ void handleMainMenuOption(std::string option) {
     }else if (option.compare("2") == 0) {
         showAlbumMenu();
     } else if (option.compare("3") == 0) {
-        cout << "Now we should show song menu" << endl;
+        showSongMenu();
     } else if (option.compare("4") == 0) {
         cout << "Now we should read a file" << endl;
     } else if (option.compare("5") == 0) {
@@ -483,9 +729,10 @@ void clearScreen() {
 }
 
 int main() {
-    cout << "\the\tllo";
     intitializeArrays();
-    showMainMenu();
+    //showMainMenu();
+
+
 
 
     

@@ -22,3 +22,7 @@ int Album::getArtistId() {
 std::string Album::getName() {
     return name;
 }
+
+int Album::getAlbumId() {
+    return id;
+}

@@ -14,5 +14,6 @@ class Album : public Printable {
         std::string toString();
         int getArtistId();
         std::string getName();
+        int getAlbumId();
 
 };
