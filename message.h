@@ -13,7 +13,7 @@ class Message {
 
         static std::string errorMatch(std::string property);
 
-        static std::string foundMatch(std::string obj);
+        static std::string foundMatch(std::string className);
 
         static std::string newObjectAdded(std::string className);
 };

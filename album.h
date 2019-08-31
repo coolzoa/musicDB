@@ -12,4 +12,7 @@ class Album : public Printable {
         Album();
         Album(int artistID, int ID, std::string nm, int yr);
         std::string toString();
+        int getArtistId();
+        std::string getName();
+
 };

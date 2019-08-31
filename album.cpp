@@ -11,6 +11,14 @@ Album::Album(int artistID, int ID, std::string nm, int yr) {
 }
 
 std::string Album::toString() {
-    return std::to_string(id) + " " + \
-     + " " + name + " " + std::to_string(year);
+    return "\t" + std::to_string(id) + "\t|" + \
+     name + "|\t" + std::to_string(year) + "\t|";
+}
+
+int Album::getArtistId() {
+    return artistId;
+}
+
+std::string Album::getName() {
+    return name;
 }

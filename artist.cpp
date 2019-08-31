@@ -5,7 +5,7 @@ Artist::Artist(){}
 
 Artist::Artist(int ID, std::string nm) {
     id = ID;
-    name = name;
+    name = nm;
 }
 
 
@@ -15,10 +15,6 @@ std::string Artist::toString() {
 
 std::string Artist::getName() {
     return name;
-}
-
-void Artist::setName(std::string nm) {
-    name = nm;
 }
 
 int Artist::getId() {
