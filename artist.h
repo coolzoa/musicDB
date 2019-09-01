@@ -12,4 +12,5 @@ class Artist : public Printable{
         std::string toString();
         std::string getName();
         int getId();
+        void setId(int newId);
 };

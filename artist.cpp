@@ -20,3 +20,7 @@ std::string Artist::getName() {
 int Artist::getId() {
     return id;
 }
+
+ void Artist::setId(int newId) {
+     id = newId;
+ }

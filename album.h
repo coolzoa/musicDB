@@ -15,5 +15,7 @@ class Album : public Printable {
         int getArtistId();
         std::string getName();
         int getAlbumId();
+        void setAlbumId(int newId);
+        int getYear();
 
 };

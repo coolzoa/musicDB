@@ -26,3 +26,11 @@ std::string Album::getName() {
 int Album::getAlbumId() {
     return id;
 }
+
+void Album::setAlbumId(int newId) {
+    id = newId;
+}
+
+int Album::getYear() {
+    return year;
+}

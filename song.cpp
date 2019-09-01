@@ -34,6 +34,14 @@ int Song::getTrackNumber() {
     return trackNumber;
 }
 
+void Song::setTrackNumber(int newTrack) {
+    trackNumber = newTrack;
+}
+
+double Song::getDuration() {
+    return duration;
+}
+
 
 
 

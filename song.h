@@ -17,5 +17,7 @@ class Song : public Printable {
         int getAlbumId();
         std::string getName();
         int getTrackNumber();
+        void setTrackNumber(int trackNumber);
+        double getDuration();
 };
 

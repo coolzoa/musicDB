@@ -46,6 +46,7 @@ bool Validator::isFloat(std::string str) {
 // adapted from https://stackoverflow.com/questions/313970/how-to-convert-stdstring-to-lower-case
 std::string Validator::toLower(std::string str) {
     transform(str.begin(), str.end(), str.begin(), ::tolower);
+    str[0] = toupper(str[0]);
     return str;
 }
 
