@@ -128,7 +128,7 @@ bool existArtist(std::string name) {
     return found;
 }
 
-bool existArtist(int id) {
+bool existArtistById(int id) {
     bool found = false;
     int i;
     for (i = 0; i < numberArtists; i++) {
@@ -215,9 +215,9 @@ void addNewArtistFromFile(std::string name, int id) {
 void validateFileArtist(std::string id, std::string name){
     if (validArtistInfo(name)) {
         if (Validator::isNumber(id)) {
-            if (!existArtist(name) && !existArtist(id)) {
-                int idInt = atoi(id.c_str());
-                addNewArtistFromFile(name, idInt);
+            int idAsInt = atoi(id.c_str());
+            if (!existArtist(name) && !existArtistById(idAsInt)) {
+                addNewArtistFromFile(name, idAsInt);
             }
         }
     }  
@@ -379,7 +379,7 @@ bool existAlbum(int albumId) {
 
 bool existAlbumById(int albumId, int artistId) {
     bool exist = false;
-    if (!existArtist(artistId)) {
+    if (!existArtistById(artistId)) {
         return exist;
     } else {
         int i;
@@ -532,7 +532,7 @@ void validateFileSongOrAlbum(std::string artistIdOrAlbumId, std::string albumIdO
             if(Validator::isNumber(artistId) && Validator::isNumber(artistId)\
             && Validator::isNumber(year)) {
                 if (!existAlbumById(atoi(albumId.c_str()), atoi(artistId.c_str()))) {
-                    if (existArtist(atoi(artistId.c_str()))) {
+                    if (existArtistById(atoi(artistId.c_str()))) {
                         addNewAlbumFromFile(atoi(artistId.c_str()), atoi(albumId.c_str()), name, year);
                     } else {
 
