@@ -167,8 +167,10 @@ Artist getArtistByName(std::string name) {
             return artists[i];
         } else {}
     }
+
 }
 
+//assumes Artist does exist
 Artist getArtist(int id) {
     int i;
     for (i = 0; i < numberArtists; i++) {
@@ -448,7 +450,7 @@ Album getAlbum(int id) {
     }
 }
 
-
+//assumes album does exist
 Album getAlbumByName(std::string albumName,std::string artistName) {
     int i, j;
     for (i = 0; i < numberArtists; i++) {
@@ -652,7 +654,7 @@ void askSongInfo(int option) {
         getline(std::cin, songName);
         songName = Validator::toLower(songName);
         if (validSongInput(songName)) {
-            //searchSong(trackName);
+            searchSong(songName);
         } else {
 
         }
@@ -800,7 +802,6 @@ void searchSong(std::string songName) {
         cout << Message::errorMatch(string("Song")) << endl;
     } else {
         cout << "Here's what we found: " << endl;
-        cout << "|\tArtist_id\t|\tArtist_name\t|\tAlbum_id\t|\tAlbum_name\t|\tAlbum_year\t|" << endl;
 
         cout << "|\tArtist_id\t|\tArtist_name\t|\tAlbum_id\t|\tAlbum_name\t|\tAlbum_year\t|" <<
             "\tTrack_number\t|\tSong_name\t|\tSong_duration\t|"<< endl;
@@ -834,11 +835,11 @@ void addNewSongFromFile(int albumId, std::string trackNumber, std::string name, 
 }
 
 void showSongs() {
-    cout << "Here's what we found: " << endl;
+    cout << "===== Songs =====" << endl;
 
     cout << "|\tArtist_id\t|\tArtist_name\t|\tAlbum_id\t|\tAlbum_name\t|\tAlbum_year\t|" <<
         "\tTrack_number\t|\tSong_name\t|\tSong_duration\t|"<< endl;
-    cout << "======================================================================================================" << endl;
+    cout << "==========================================================================================================================================================" << endl;
 
     int i, j, k;
     for (i = 0; i < numberArtists; i++) {
@@ -870,7 +871,8 @@ void showMainMenu() {
     cout << "3. Song menu" << endl;
     cout << "4. Read a file" << endl;
     cout << "5. Save database to a file" << endl;
-    cout << "6. Exit" << endl << endl;
+    cout << "6. Show database" << endl;
+    cout << "7. Exit" << endl << endl;
     
     std::string option;
     cout << "Press the option number: ";
@@ -891,7 +893,9 @@ void handleMainMenuOption(std::string option) {
         askFileName();
     } else if (option.compare("5") == 0) {
         saveDB();
-    } else if (option.compare("6") == 0) {
+    }else if (option.compare("6") == 0) {
+        showDB();
+    } else if (option.compare("7") == 0) {
         cout << "Goodbye." << endl;
         deleteArrays();
         exit(0);
@@ -977,21 +981,28 @@ void saveDB() {
     }
     
     file.close();
+}
 
+void showDB() {
+    cout << "DB contents" << endl;
+    showArtists();
+    cout << endl;
+    showAlbums();
+    cout << endl;
+    showSongs();
+    cout << endl;
 
 }
 
-
+void clearScreen() {
+    cout << "\033[2J\033[1;1H";
+}
 
 
 
 
 
 ////////////Main
-
-void clearScreen() {
-    cout << "\033[2J\033[1;1H";
-}
 
 int main() {
     clearScreen();

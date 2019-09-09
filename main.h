@@ -74,6 +74,8 @@ void askFileName();
 
 void saveDB();
 
+void showDB();
+
 
 
 

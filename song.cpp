@@ -15,11 +15,7 @@ Song::Song(int albumID, int tNumber, std::string nm, double dur) {
 
 std::string Song::toString() {
 
-    return "\t" + std::to_string(trackNumber) + "\t|" + \
-     name + "|\t" + std::to_string(duration) + "\t|";
-
-    return std::to_string(albumId) + " " + std::to_string(trackNumber) \
-     + " " + name + " " + std::to_string(duration);
+    return "\t" + std::to_string(trackNumber) + "\t|\t" + name + "\t|\t" + std::to_string(duration) + "\t|";
 }
 
 int Song::getAlbumId() {

@@ -10,7 +10,7 @@ Artist::Artist(int ID, std::string nm) {
 
 
 std::string Artist::toString() {
-    return "|\t" + std::to_string(id) + "\t|" + "\t" + name + "\t|";
+    return "|\t" + std::to_string(id) + "\t|\t" + name + "\t|";
 }
 
 std::string Artist::getName() {
